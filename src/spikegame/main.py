@@ -11,10 +11,15 @@ async def main():
 
     running = True
 
-    ball_colour = pygame.Color("blue")
     ball_position = pygame.Vector2((100, 100))
-    ball_radius = 40
     ball_speed = 0.25
+
+    ball_image_path = importlib.resources.files('spikegame').joinpath('assets/box.png')
+    ball_image = pygame.image.load(ball_image_path)
+
+    ball_rect = ball_image.get_rect()
+    ball_radius_x = ball_rect.width // 2
+    ball_radius_y = ball_rect.height // 2
 
     font = pygame.Font(size=32)
 
@@ -46,14 +51,15 @@ async def main():
         ball_position += move * ball_speed * dt
 
         ball_position.x = max(
-            ball_radius, min(SCREEN_SIZE[0] - ball_radius, ball_position.x)
+            ball_radius_x, min(SCREEN_SIZE[0] - ball_radius_x, ball_position.x)
         )
         ball_position.y = max(
-            ball_radius, min(SCREEN_SIZE[1] - ball_radius, ball_position.y)
+            ball_radius_y, min(SCREEN_SIZE[1] - ball_radius_y, ball_position.y)
         )
 
         # Draw the ball, text, and flip the framebuffer
-        pygame.draw.circle(screen, ball_colour, ball_position, ball_radius)
+        ball_rect.center = ball_position
+        screen.blit(ball_image, ball_rect)
         screen.blit(font.render("Hello world", True, pygame.Color("white")), (100, 100))
         pygame.display.flip()
 
