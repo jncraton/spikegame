@@ -13,4 +13,4 @@ run:
 	uv run --with pygame-ce src/spikegame/main.py
 
 clean:
-	rm -rf dist .venv uv.lock **/__pycache__
+	rm -rf dist .venv uv.lock src/**/__pycache__
