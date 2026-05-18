@@ -8,15 +8,27 @@
 	<style>
 		html, body {
 			margin: 0;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		#canvas, #start-box {
+			width: min(100vw, calc(100vh * 640 / 480));
+			height: min(100vh, calc(100vw * 480 / 640));
+		}
+
+		#canvas {
+			display: block;
 		}
 
 		#start-box {
-			align-items: center;
-			display: flex;
-			height: 480px;
-			justify-content: center;
 			position: absolute;
-			width: 640px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		#start-game {
