@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spikegame</title>
+	<script src="https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.js"></script>
+	<style>
+		html, body {
+			margin: 0;
+		}
+
+		#start-box {
+			align-items: center;
+			display: flex;
+			height: 480px;
+			justify-content: center;
+			position: absolute;
+			width: 640px;
+		}
+
+		#start-game {
+			font-size: 18pt;
+			padding: .5rem 1rem;
+		}
+	</style>
+</head>
+<body>
+	<div id="start-box">
+		<button id="start-game">Loading...</button>
+	</div>
+	<canvas id="canvas" width="640" height="480"></canvas>
+	<script>
+		async function setup(params) {
+			const canvas = document.getElementById("canvas");
+			const startButton = document.getElementById("start-game");
+			startButton.disabled = true; // Work around Firefox quirk persisting across reloads
+
+			// Setup Pyodide
+			const pyodide = await loadPyodide();
+			pyodide.canvas.setCanvas2D(canvas);
+			await pyodide.loadPackage([
+				"pygame-ce",
+				"./dist/spikegame-0.1.0-py3-none-any.whl",
+			]);
+
+			// Import demo
+			const demo = pyodide.pyimport("spikegame");
+
+			// Enable start button
+			startButton.disabled = false;
+			startButton.textContent = "Start";
+
+			startButton.addEventListener("click", () => {
+				// Hide start box and start game on click
+				startButton.parentElement.style.display = "none";
+				demo.main();
+			});
+		}
+
+		setup()
+	</script>
+</body>
+</html>
