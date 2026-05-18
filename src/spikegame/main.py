@@ -12,7 +12,6 @@ async def main():
     running = True
 
     ball_colour = pygame.Color("blue")
-    ball_direction = pygame.Vector2(1, 1)
     ball_position = pygame.Vector2((100, 100))
     ball_radius = 40
     ball_speed = 0.25
@@ -30,25 +29,28 @@ async def main():
 
         screen.fill(pygame.Color("black"))
 
-        # Move ball position in the current direction according to ball_speed
-        # and time since last frame
-        ball_position += ball_direction * 0.25 * dt
+        keys = pygame.key.get_pressed()
+        move = pygame.Vector2(0, 0)
+        if keys[pygame.K_a]:
+            move.x = -1
+        if keys[pygame.K_d]:
+            move.x = 1
+        if keys[pygame.K_w]:
+            move.y = -1
+        if keys[pygame.K_s]:
+            move.y = 1
 
-        # Bounce the ball if it hits the left or right sides
-        if ball_position.x - ball_radius < 0:
-            ball_direction.x = 1
-            bounced = True
-        elif ball_position.x + ball_radius > SCREEN_SIZE[0]:
-            ball_direction.x = -1
-            bounced = True
+        if move.length() > 0:
+            move = move.normalize()
 
-        # Bounce the ball if it hits the top or bottom sides
-        if ball_position.y - ball_radius < 0:
-            ball_direction.y = 1
-            bounced = True
-        elif ball_position.y + ball_radius > SCREEN_SIZE[1]:
-            ball_direction.y = -1
-            bounced = True
+        ball_position += move * ball_speed * dt
+
+        ball_position.x = max(
+            ball_radius, min(SCREEN_SIZE[0] - ball_radius, ball_position.x)
+        )
+        ball_position.y = max(
+            ball_radius, min(SCREEN_SIZE[1] - ball_radius, ball_position.y)
+        )
 
         # Draw the ball, text, and flip the framebuffer
         pygame.draw.circle(screen, ball_colour, ball_position, ball_radius)

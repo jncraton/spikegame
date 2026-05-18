@@ -10,7 +10,7 @@ build:
 	uv build
 
 run:
-	uv run --with pygame-ce spikegame/main.py
+	uv run --with pygame-ce src/spikegame/main.py
 
 clean:
 	rm -rf dist
