@@ -14,7 +14,7 @@ async def main():
     ball_position = pygame.Vector2((100, 100))
     ball_speed = 0.25
 
-    ball_image_path = importlib.resources.files('spikegame').joinpath('assets/box.png')
+    ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
 
     ball_rect = ball_image.get_rect()
