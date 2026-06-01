@@ -3,7 +3,7 @@ name = "spikegame"
 version = "0.1.0"
 description = "a game"
 readme = "readme.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "pygame-ce~=2.5.6",
 ]
