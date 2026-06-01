@@ -12,7 +12,7 @@ async def main():
     running = True
 
     ball_position = pygame.Vector2((100, 100))
-    ball_speed = 0.25
+    ball_speed = 0.251
 
     ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
@@ -25,6 +25,8 @@ async def main():
 
     last_ticks = pygame.time.get_ticks()
     dt = 0.0
+    
+    vel= pygame.Vector2(0, .3)
 
     while running:
         events = pygame.event.get()
@@ -44,11 +46,19 @@ async def main():
             move.y = -1
         if keys[pygame.K_s]:
             move.y = 1
-
+        if keys[pygame.K_LEFT]:
+            move.x = -1
+        if keys[pygame.K_RIGHT]:
+            move.x = 1
+        if keys[pygame.K_UP]:
+            move.y = -1
+        if keys[pygame.K_DOWN]:
+            move.y = 1
+            
         if move.length() > 0:
             move = move.normalize()
 
-        ball_position += move * ball_speed * dt
+        ball_position += (move + vel) * ball_speed * dt
 
         ball_position.x = max(
             ball_radius_x, min(SCREEN_SIZE[0] - ball_radius_x, ball_position.x)
