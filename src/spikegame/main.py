@@ -60,7 +60,7 @@ async def main():
         # Draw the ball, text, and flip the framebuffer
         ball_rect.center = ball_position
         screen.blit(ball_image, ball_rect)
-        screen.blit(font.render("Hello world", True, pygame.Color("white")), (100, 100))
+        screen.blit(font.render("Benji was here", True, pygame.Color("white")), (100, 100))
         pygame.display.flip()
 
         # Replacement for framerate-less pygame.Clock.tick
