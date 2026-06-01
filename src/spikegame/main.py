@@ -4,7 +4,6 @@ import pygame
 
 SCREEN_SIZE = (640, 480)
 
-
 async def main():
     pygame.init()
     screen = pygame.display.set_mode(SCREEN_SIZE)
@@ -14,10 +13,11 @@ async def main():
     ball_position = pygame.Vector2((100, 100))
     ball_speed = 0.251
     gravity = 0.003
+    block_size = 64
     
     blocks = [
-        pygame.Vector2((128,128)),
-        pygame.Vector2((256,128)),
+        pygame.Vector2((128,432)),
+        pygame.Vector2((256,432)),
     ]
 
     ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
@@ -58,6 +58,12 @@ async def main():
         vel.y = vel.y + gravity * dt
 
         ball_position += (move + vel) * ball_speed * dt
+        
+        for block in blocks:
+            if (block.x - block_size < ball_position.x < block.x + block_size and
+               block.y - block_size < ball_position.y < block.y + block_size):
+                # undo move
+                ball_position.y -= (move.y + vel.y) * ball_speed * dt
 
         ball_position.x = max(
             ball_radius_x, min(SCREEN_SIZE[0] - ball_radius_x, ball_position.x)
