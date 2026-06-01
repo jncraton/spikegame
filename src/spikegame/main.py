@@ -13,6 +13,12 @@ async def main():
 
     ball_position = pygame.Vector2((100, 100))
     ball_speed = 0.251
+    gravity = 0.003
+    
+    blocks = [
+        pygame.Vector2((128,128)),
+        pygame.Vector2((256,128)),
+    ]
 
     ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
@@ -43,20 +49,19 @@ async def main():
         if keys[pygame.K_d]:
             move.x = 1
         if keys[pygame.K_w]:
-            move.y = -1
-        if keys[pygame.K_s]:
-            move.y = 1
+            vel.y = -1
         if keys[pygame.K_LEFT]:
             move.x = -1
         if keys[pygame.K_RIGHT]:
             move.x = 1
         if keys[pygame.K_UP]:
-            move.y = -1
+            vel.y = -1
         if keys[pygame.K_DOWN]:
-            move.y = 1
-            
+            vel.y = 2  
         if move.length() > 0:
             move = move.normalize()
+
+        vel.y = vel.y + gravity * dt
 
         ball_position += (move + vel) * ball_speed * dt
 
@@ -70,7 +75,14 @@ async def main():
         # Draw the ball, text, and flip the framebuffer
         ball_rect.center = ball_position
         screen.blit(ball_image, ball_rect)
-        screen.blit(font.render("Benji was here", True, pygame.Color("white")), (100, 100))
+        
+        for block in blocks:
+            block_rect = ball_image.get_rect()
+
+            block_rect.center = block
+            screen.blit(ball_image, block_rect)
+        
+        screen.blit(font.render(f"{vel.y}", True, pygame.Color("white")), (100, 100))
         pygame.display.flip()
 
         # Replacement for framerate-less pygame.Clock.tick
