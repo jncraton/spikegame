@@ -9,6 +9,9 @@ format:
 build:
 	uv build
 
+edit:
+	uv run --python 3.11 --with pygame-ce thonny src/spikegame/main.py
+
 run:
 	uv run --with pygame-ce src/spikegame/main.py
 
