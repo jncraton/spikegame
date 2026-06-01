@@ -1,8 +1,15 @@
 import asyncio
 import importlib.resources
 import pygame
+import os
 
 SCREEN_SIZE = (640, 480)
+
+def get_asset_path(relpath):
+    if os.path.exists(relpath):
+        return relpath
+    else:
+        importlib.resources.files("spikegame").joinpath(relpath)
 
 async def main():
     pygame.init()
@@ -20,7 +27,7 @@ async def main():
         pygame.Vector2((256,432)),
     ]
 
-    ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
+    ball_image_path = get_asset_path("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
 
     ball_rect = ball_image.get_rect()
@@ -93,6 +100,7 @@ async def main():
         # Yield each frame, pyodide doesn't work properly with a value of 0 so we use a small delay
         await asyncio.sleep(1.0 / 120.0)
 
+    exit(1)
 
 if __name__ == "__main__":
     asyncio.run(main())
