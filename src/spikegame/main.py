@@ -5,11 +5,13 @@ import os
 
 SCREEN_SIZE = (640, 480)
 
+
 def get_asset_path(relpath):
     if os.path.exists(relpath):
         return relpath
     else:
         importlib.resources.files("spikegame").joinpath(relpath)
+
 
 async def main():
     pygame.init()
@@ -21,10 +23,10 @@ async def main():
     ball_speed = 0.251
     gravity = 0.003
     block_size = 64
-    
+
     blocks = [
-        pygame.Vector2((128,432)),
-        pygame.Vector2((256,432)),
+        pygame.Vector2((128, 432)),
+        pygame.Vector2((256, 432)),
     ]
 
     ball_image_path = get_asset_path("assets/box.png")
@@ -38,8 +40,8 @@ async def main():
 
     last_ticks = pygame.time.get_ticks()
     dt = 0.0
-    
-    vel= pygame.Vector2(0, .3)
+
+    vel = pygame.Vector2(0, 0.3)
 
     while running:
         events = pygame.event.get()
@@ -58,17 +60,19 @@ async def main():
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             vel.y = -1
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            vel.y = 2  
+            vel.y = 2
         if move.length() > 0:
             move = move.normalize()
 
         vel.y = vel.y + gravity * dt
 
         ball_position += (move + vel) * ball_speed * dt
-        
+
         for block in blocks:
-            if (block.x - block_size < ball_position.x < block.x + block_size and
-               block.y - block_size < ball_position.y < block.y + block_size):
+            if (
+                block.x - block_size < ball_position.x < block.x + block_size
+                and block.y - block_size < ball_position.y < block.y + block_size
+            ):
                 # undo move
                 ball_position.y -= (move.y + vel.y) * ball_speed * dt
 
@@ -82,13 +86,13 @@ async def main():
         # Draw the ball, text, and flip the framebuffer
         ball_rect.center = ball_position
         screen.blit(ball_image, ball_rect)
-        
+
         for block in blocks:
             block_rect = ball_image.get_rect()
 
             block_rect.center = block
             screen.blit(ball_image, block_rect)
-        
+
         screen.blit(font.render(f"{vel.y}", True, pygame.Color("white")), (100, 100))
         pygame.display.flip()
 
@@ -101,6 +105,7 @@ async def main():
         await asyncio.sleep(1.0 / 120.0)
 
     exit(1)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
