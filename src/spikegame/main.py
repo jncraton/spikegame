@@ -1,16 +1,8 @@
 import asyncio
 import importlib.resources
 import pygame
-import os
 
 SCREEN_SIZE = (640, 480)
-
-
-def get_asset_path(relpath):
-    if os.path.exists(relpath):
-        return relpath
-    else:
-        return importlib.resources.files("spikegame").joinpath(relpath)
 
 
 async def main():
@@ -31,7 +23,7 @@ async def main():
     for x in range(32, 640, 64):
         blocks.append(pygame.Vector2((x, 448)))
 
-    ball_image_path = get_asset_path("assets/box.png")
+    ball_image_path = importlib.resources.files("spikegame").joinpath("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
 
     ball_rect = ball_image.get_rect()
