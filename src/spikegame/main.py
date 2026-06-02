@@ -70,13 +70,22 @@ async def main():
 
         ball_position += (move + vel) * ball_speed * dt
 
-        for block in blocks:
-            if (
-                block.x - block_size < ball_position.x < block.x + block_size
-                and block.y - block_size < ball_position.y < block.y + block_size
-            ):
-                # undo move
-                ball_position.y -= (move.y + vel.y) * ball_speed * dt
+        for i, block in enumerate(blocks):
+            offset = block - ball_position
+            
+            if abs(offset.x) < 64 and abs(offset.y) < 64:
+                print(i, ball_position, offset)
+                if abs(offset.x) > abs(offset.y):
+                    if offset.x < 0:
+                        ball_position.x += offset.x + 64
+                    else:
+                        ball_position.x += offset.x - 64
+                else:
+                    if offset.y < 0:
+                        ball_position.y += offset.y + 64
+                    else:
+                        ball_position.y += offset.y - 64
+                vel.y = 0
 
         ball_position.x = max(
             ball_radius_x, min(SCREEN_SIZE[0] - ball_radius_x, ball_position.x)
