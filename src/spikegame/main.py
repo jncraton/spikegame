@@ -25,9 +25,9 @@ async def main():
     block_size = 64
 
     blocks = [
-        pygame.Vector2((128, 432)),
-        pygame.Vector2((256, 432)),
     ]
+    for x in range(32, 640, 64):
+        blocks.append(pygame.Vector2((x, 448)))
 
     ball_image_path = get_asset_path("assets/box.png")
     ball_image = pygame.image.load(ball_image_path)
