@@ -74,7 +74,6 @@ async def main():
             offset = block - ball_position
 
             if abs(offset.x) < 64 and abs(offset.y) < 64:
-                print(i, ball_position, offset)
                 if abs(offset.x) > abs(offset.y):
                     if offset.x < 0:
                         ball_position.x += offset.x + 64
