@@ -25,6 +25,8 @@ async def main():
     block_size = 64
 
     blocks = [
+        pygame.Vector2((32+64*4, 32+64*4)),
+        pygame.Vector2((32+64*6, 32+64*2)),
     ]
     for x in range(32, 640, 64):
         blocks.append(pygame.Vector2((x, 448)))
