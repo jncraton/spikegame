@@ -10,7 +10,7 @@ def get_asset_path(relpath):
     if os.path.exists(relpath):
         return relpath
     else:
-        importlib.resources.files("spikegame").joinpath(relpath)
+        return importlib.resources.files("spikegame").joinpath(relpath)
 
 
 async def main():
