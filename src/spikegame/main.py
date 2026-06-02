@@ -25,8 +25,8 @@ async def main():
     block_size = 64
 
     blocks = [
-        pygame.Vector2((32+64*4, 32+64*4)),
-        pygame.Vector2((32+64*6, 32+64*2)),
+        pygame.Vector2((32 + 64 * 4, 32 + 64 * 4)),
+        pygame.Vector2((32 + 64 * 6, 32 + 64 * 2)),
     ]
     for x in range(32, 640, 64):
         blocks.append(pygame.Vector2((x, 448)))
@@ -72,7 +72,7 @@ async def main():
 
         for i, block in enumerate(blocks):
             offset = block - ball_position
-            
+
             if abs(offset.x) < 64 and abs(offset.y) < 64:
                 print(i, ball_position, offset)
                 if abs(offset.x) > abs(offset.y):
